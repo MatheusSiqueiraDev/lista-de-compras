@@ -1,7 +1,7 @@
 
 import 'package:lista_compras/models/product.dart';
 
-const Map<String, Product>DUMMY_USERS = {
+Map<String, Product>DUMMY_USERS = {
   '1': Product(
     id: '1',
     name: 'Banana',
