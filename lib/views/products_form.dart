@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+import 'package:lista_compras/models/product.dart';
+import 'package:lista_compras/provider/products.dart';
+import 'package:provider/provider.dart';
+
+class ProductsForm extends StatelessWidget {
+  
+  final _form = GlobalKey<FormState>();
+  
+  final Map<String, String> _formData = {};
+
+  void _loadFormData(Product product) {
+    _formData['id'] = product.id;
+    _formData['name'] = product.name;
+    _formData['price'] = product.price;
+    _formData['photoUrl'] = product.photoUrl;
+  }
+
+  @override 
+  Widget build(BuildContext context) {
+    final product = ModalRoute.of(context)?.settings.arguments;
+   
+    if(product != null) {
+      _loadFormData(product as Product);
+    }
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Formulário de Produtos'),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            onPressed: () { 
+              _form.currentState?.save();
+              Provider.of<Products>(context, listen: false).put(
+                Product(
+                  id: _formData["id"] ?? _formData.toString(),
+                  name: _formData['name'].toString(),
+                  price: _formData['price'].toString(),
+                  photoUrl: _formData['photoUrl'].toString()
+                )
+              );
+              Navigator.of(context).pop();
+            }, 
+            icon: Icon(Icons.save_alt)
+          )
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: Form(
+          key: _form,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                initialValue: _formData['name'],
+                decoration: InputDecoration(
+                  labelText: 'Nome'
+                ),
+                onSaved: ((newName) => {
+                  _formData['name'] = newName!
+                }),
+              ),
+              TextFormField(
+                initialValue: _formData['price'],
+                decoration: InputDecoration(
+                  labelText: 'Preço'
+                ),
+                onSaved: (newPrice) => {
+                  _formData['price'] = newPrice!
+                },
+              ),
+              TextFormField(
+                initialValue: _formData['photoUrl'],
+                decoration: InputDecoration(
+                  labelText: 'URL da Foto'
+                ),
+                onSaved: (newPhotoUrl) => {
+                  _formData['photoUrl'] = newPhotoUrl!
+                },
+              ),
+            ]
+          ),
+        ),
+      )
+    );
+  }
+}
