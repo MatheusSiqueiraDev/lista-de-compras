@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lista_compras/data/dummy_products.dart';
 import 'package:lista_compras/models/product.dart';
 
@@ -20,9 +19,6 @@ class Products with ChangeNotifier {
   }
 
   void put(Product product) {
-    if(product == null) {
-      
-    }
 
     if(product.id != null && product.id.trim().isNotEmpty && _items.containsKey(product.id)) {
       _items.update(product.id, (value) => Product(
@@ -47,6 +43,14 @@ class Products with ChangeNotifier {
   void remove(Product product) {
     if(product != null && product.id != null) {
       _items.remove(product.id);
+      notifyListeners();
+    }
+  }
+
+  void removeAllProducts () {
+    print('Passei aqui');
+    if(_items.isEmpty == false) {
+      _items.clear();
       notifyListeners();
     }
   }

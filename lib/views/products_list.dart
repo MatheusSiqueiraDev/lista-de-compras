@@ -16,8 +16,10 @@ class ProductList extends StatelessWidget {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            onPressed: () => {}, 
-            icon: Icon(Icons.do_disturb_alt_outlined),
+            onPressed: () {
+              product.removeAllProducts();
+            }, 
+            icon: Icon(Icons.remove_circle_sharp),
             )
         ],
       ),
