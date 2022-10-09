@@ -10,7 +10,7 @@ class ProductsForm extends StatelessWidget {
   final Map<String, String> _formData = {};
 
   void _loadFormData(Product product) {
-    _formData['id'] = product.id;
+    _formData['id'] = product.id as String;
     _formData['name'] = product.name;
     _formData['price'] = product.price;
     _formData['photoUrl'] = product.photoUrl;
@@ -32,13 +32,11 @@ class ProductsForm extends StatelessWidget {
           IconButton(
             onPressed: () { 
               _form.currentState?.save();
-              Provider.of<Products>(context, listen: false).put(
-                Product(
-                  id: _formData["id"] ?? _formData.toString(),
-                  name: _formData['name'].toString(),
-                  price: _formData['price'].toString(),
-                  photoUrl: _formData['photoUrl'].toString()
-                )
+              Provider.of<Products>(context, listen: false).products;
+              Provider.of<Products>(context, listen: false).setProduct(
+                _formData['name'].toString(),
+                _formData['price'].toString(),
+                _formData['photoUrl'].toString()  
               );
               Navigator.of(context).pop();
             }, 

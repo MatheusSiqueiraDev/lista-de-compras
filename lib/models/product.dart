@@ -1,13 +1,8 @@
 class Product {
-  final String id;
+  final int id;
   final String name;
   final String price;
   final String photoUrl;
 
-  const Product({
-    this.id = '0',
-    required this.name,
-    required this.price,
-    this.photoUrl = ''
-  });
+  const Product(this.id, this.name, this.price, this.photoUrl);
 }

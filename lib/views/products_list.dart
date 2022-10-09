@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lista_compras/components/products_tile.dart';
-import 'package:lista_compras/data/dummy_products.dart';
 import 'package:lista_compras/models/product.dart';
 import 'package:lista_compras/routes/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +28,7 @@ class ProductList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          product.products;
           Navigator.of(context).pushNamed(AppRoutes.PRODUCT_FORM);
         },
         child: Icon(Icons.add),
