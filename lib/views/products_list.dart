@@ -12,11 +12,40 @@ class ProductList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Compras'),
+        backgroundColor: Colors.deepPurple,
         centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20)
+          )
+        ),
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              product.removeAllProducts();
+              if(product.count > 0) {
+                showDialog(
+                    context: context, 
+                    builder: (context) => AlertDialog(
+                      title: Text('Excluir Todos os Produtos'),
+                      content: Text('Tem certeza?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text('Não')
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text('Sim')
+                        ),
+                      ],
+                    )
+                  ).then((response) {
+                    if(response) {
+                      Provider.of<Products>(context, listen: false).removeAllProducts();
+                    }
+                  }
+                );
+              }
             }, 
             icon: Icon(Icons.remove_circle_sharp),
             )
@@ -24,7 +53,9 @@ class ProductList extends StatelessWidget {
       ),
       body: ListView.builder(
         itemCount: product.count,
-        itemBuilder: (context, index) => ProductsTile(product.byIndex(index)),
+        itemBuilder: (context, index) => Container(
+          child: ProductsTile(product.byIndex(index))
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

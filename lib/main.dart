@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lista_compras/provider/products.dart';
 import 'package:lista_compras/routes/app_routes.dart';
 import 'package:lista_compras/views/products_form.dart';
@@ -15,6 +16,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.deepPurple
+    ));
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -24,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
         ),
         home: ProductList(),
         routes: {

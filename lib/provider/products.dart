@@ -12,6 +12,10 @@ class Products with ChangeNotifier {
 
   List get products => _product;
 
+  int get count {
+    return _product.length;
+  }
+
   Products() {
     _initRepository();
   }
@@ -22,69 +26,67 @@ class Products with ChangeNotifier {
 
   _getProducts() async {
     db = await DB.instance.database;
-    _product = await db.query('product');
+    List productQuery = await db.query('product');
+    List listProduct = [];
+    for (var product in productQuery) { 
+      Product newProduct = Product.fromMap(product); 
+      listProduct.add(newProduct); 
+    } 
+    _product = listProduct;
     notifyListeners();
   }
 
-  setProduct(String name, String price, String url) async {
+  setProduct(String id, String name, String price, String url) async {
+    Product? updateProduct = _productIsTable(id);
     db = await DB.instance.database;
-    db.insert('product', {
-      'name': name,
-      'price': price,
-      'photourl': url
-    });
-    notifyListeners();
+    if(updateProduct != null) {
+      await db.rawUpdate('''
+        UPDATE product 
+        SET name = ?, price = ?, photoUrl = ? 
+        WHERE id = ?
+        ''', 
+        [name, price, url, id]
+      );
+    } else {
+      db.insert('product', {
+        'name': name,
+        'price': price,
+        'photourl': url
+      });
+    }
+    _getProducts();
   }
 
-  final Map<String, Product> _items = {};
-
-  List<Product> get all {
-    return [..._items.values];
-  }
-
-  int get count {
-    return _items.length;
-  }
-
-  Product byIndex(int i) {
-    List<dynamic> teste = products;
-    return _items.values.elementAt(i);
-  }
-
-  // void put(Product product) {
-
-  //   if(product.id != null && product.id.trim().isNotEmpty && _items.containsKey(product.id)) {
-  //     _items.update(product.id, (value) => Product(
-  //       id: product.id,
-  //       name: product.name,
-  //       price: product.price,
-  //       photoUrl: product.photoUrl
-  //     ));
-  //   } else {
-  //     final id = Random().nextDouble().toString();
-  //     _items.putIfAbsent(id, () => Product(
-  //       id: id,
-  //       name: product.name,
-  //       price: product.price,
-  //       photoUrl: product.photoUrl
-  //     ));
-  //   }
-
-  //   notifyListeners();
-  // }
-
-  void remove(Product product) {
-    if(product != null && product.id != null) {
-      _items.remove(product.id);
-      notifyListeners();
+  _productIsTable(id) {
+    for (var product in _product) { 
+      if(id == product.id) {
+        return product;
+      }
     }
   }
 
-  void removeAllProducts () {
-    print('Passei aqui');
-    if(_items.isEmpty == false) {
-      _items.clear();
-      notifyListeners();
+  Product byIndex(int i) {
+    return _product[i];
+  }
+
+  Future<void> remove(Product product) async {
+    if(product != null && product.id != null) {
+      await db.rawDelete('''
+          DELETE FROM product WHERE id = ? 
+        ''', 
+        [product.id]
+      );
+      _getProducts();
+    }
+  }
+
+  Future<void> removeAllProducts () async {
+    if(_product.isEmpty == false) {  
+      await db.rawDelete('''
+          DELETE FROM product 
+        ''', 
+      );
+      _getProducts();
     }
   }
 }

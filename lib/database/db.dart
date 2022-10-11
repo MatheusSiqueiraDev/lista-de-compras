@@ -33,10 +33,10 @@ class DB {
   String get _product => 
   '''
     CREATE TABLE product(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT,
       price TEXT,
-      photourl TEXT
+      photourl TEXT DEFAULT "default"
     )
   ''';
 }

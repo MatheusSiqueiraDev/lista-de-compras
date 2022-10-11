@@ -12,13 +12,13 @@ class ProductsTile extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final photo = product.photoUrl == null || product.photoUrl.isEmpty ? 
+    final photo = product.photoUrl == null || product.photoUrl!.isEmpty ? 
     CircleAvatar(child: Icon(Icons.add_shopping_cart)) : 
-    CircleAvatar(backgroundImage: NetworkImage(product.photoUrl));
+    CircleAvatar(backgroundImage: NetworkImage(product.photoUrl!));
 
     return ListTile(
       leading: photo,
-      title: Text(product.name),
+      title: Text(product.name!),
       subtitle: Text('R\$${product.price}'),
       trailing: Container(
         width: 100,
@@ -40,7 +40,7 @@ class ProductsTile extends StatelessWidget {
                 showDialog(
                   context: context, 
                   builder: (context) => AlertDialog(
-                    title: Text('Excluir Usuário'),
+                    title: Text('Excluir Produto'),
                     content: Text('Tem certeza?'),
                     actions: <Widget>[
                       TextButton(
