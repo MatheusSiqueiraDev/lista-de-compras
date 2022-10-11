@@ -1,57 +1,92 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:lista_compras/data/dummy_products.dart';
+import 'package:lista_compras/database/db.dart';
 import 'package:lista_compras/models/product.dart';
+import 'package:sqflite/sqflite.dart';
 
 class Products with ChangeNotifier {
-  final Map<String, Product> _items = {...DUMMY_USERS};
 
-  List<Product> get all {
-    return [..._items.values];
-  }
+  late Database db;
+  
+  List _product = [];
+
+  List get products => _product;
 
   int get count {
-    return _items.length;
+    return _product.length;
   }
 
-  Product byIndex(int i) {
-    return _items.values.elementAt(i);
+  Products() {
+    _initRepository();
   }
 
-  void put(Product product) {
+  _initRepository() async {
+    await _getProducts();
+  }
 
-    if(product.id != null && product.id.trim().isNotEmpty && _items.containsKey(product.id)) {
-      _items.update(product.id, (value) => Product(
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        photoUrl: product.photoUrl
-      ));
-    } else {
-      final id = Random().nextDouble().toString();
-      _items.putIfAbsent(id, () => Product(
-        id: id,
-        name: product.name,
-        price: product.price,
-        photoUrl: product.photoUrl
-      ));
-    }
-
+  _getProducts() async {
+    db = await DB.instance.database;
+    List productQuery = await db.query('product');
+    List listProduct = [];
+    for (var product in productQuery) { 
+      Product newProduct = Product.fromMap(product); 
+      listProduct.add(newProduct); 
+    } 
+    _product = listProduct;
     notifyListeners();
   }
 
-  void remove(Product product) {
-    if(product != null && product.id != null) {
-      _items.remove(product.id);
-      notifyListeners();
+  setProduct(String id, String name, String price, String url) async {
+    Product? updateProduct = _productIsTable(id);
+    db = await DB.instance.database;
+    if(updateProduct != null) {
+      await db.rawUpdate('''
+        UPDATE product 
+        SET name = ?, price = ?, photoUrl = ? 
+        WHERE id = ?
+        ''', 
+        [name, price, url, id]
+      );
+    } else {
+      db.insert('product', {
+        'name': name,
+        'price': price,
+        'photourl': url
+      });
+    }
+    _getProducts();
+  }
+
+  _productIsTable(id) {
+    for (var product in _product) { 
+      if(id == product.id) {
+        return product;
+      }
     }
   }
 
-  void removeAllProducts () {
-    print('Passei aqui');
-    if(_items.isEmpty == false) {
-      _items.clear();
-      notifyListeners();
+  Product byIndex(int i) {
+    return _product[i];
+  }
+
+  Future<void> remove(Product product) async {
+    if(product != null && product.id != null) {
+      await db.rawDelete('''
+          DELETE FROM product WHERE id = ? 
+        ''', 
+        [product.id]
+      );
+      _getProducts();
+    }
+  }
+
+  Future<void> removeAllProducts () async {
+    if(_product.isEmpty == false) {  
+      await db.rawDelete('''
+          DELETE FROM product 
+        ''', 
+      );
+      _getProducts();
     }
   }
 }

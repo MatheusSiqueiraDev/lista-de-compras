@@ -1,13 +1,24 @@
 class Product {
-  final String id;
-  final String name;
-  final String price;
-  final String photoUrl;
+  String? id;
+  String? name;
+  String? price;
+  String? photoUrl;
 
-  const Product({
-    this.id = '0',
-    required this.name,
-    required this.price,
-    this.photoUrl = ''
-  });
+  Product(this.id, this.name, this.price, this.photoUrl);
+
+  factory Product.fromMap(Map<String, dynamic> data) {
+      return Product( 
+         data['id'].toString(), 
+         data['name'], 
+         data['price'], 
+         data['photoUrl']
+      ); 
+   }
+
+   Map<String, dynamic> toMap() => {
+      "id": id, 
+      "name": name, 
+      "price": price, 
+      "photoUrl": photoUrl
+   }; 
 }
