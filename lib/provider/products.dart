@@ -36,22 +36,21 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  setProduct(String id, String name, String price, String url) async {
+  setProduct(String id, String name, String price) async {
     Product? updateProduct = _productIsTable(id);
     db = await DB.instance.database;
     if(updateProduct != null) {
       await db.rawUpdate('''
         UPDATE product 
-        SET name = ?, price = ?, photoUrl = ? 
+        SET name = ?, price = ?
         WHERE id = ?
         ''', 
-        [name, price, url, id]
+        [name, price, id]
       );
     } else {
       db.insert('product', {
         'name': name,
-        'price': price,
-        'photourl': url
+        'price': price
       });
     }
     _getProducts();

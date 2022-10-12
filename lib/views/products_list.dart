@@ -11,13 +11,12 @@ class ProductList extends StatelessWidget {
     final Products product = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Compras'),
-        backgroundColor: Colors.deepPurple,
-        centerTitle: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20)
-          )
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('LISTA DE COMPRAS'),
+        titleTextStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
         ),
         actions: <Widget>[
           IconButton(
@@ -47,7 +46,7 @@ class ProductList extends StatelessWidget {
                 );
               }
             }, 
-            icon: Icon(Icons.remove_circle_sharp),
+            icon: const Icon(Icons.remove_outlined),
             )
         ],
       ),
@@ -62,7 +61,8 @@ class ProductList extends StatelessWidget {
           product.products;
           Navigator.of(context).pushNamed(AppRoutes.PRODUCT_FORM);
         },
-        child: Icon(Icons.add),
+        backgroundColor: Colors.deepPurpleAccent,
+        child: const Icon(Icons.add),
       ),
     );
   }

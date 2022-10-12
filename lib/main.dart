@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lista_compras/provider/products.dart';
 import 'package:lista_compras/routes/app_routes.dart';
 import 'package:lista_compras/views/products_form.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.deepPurple
+      statusBarColor: Color.fromARGB(255, 26,26,26)
     ));
     return MultiProvider(
       providers: [
@@ -26,9 +27,12 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Dark Mode',
         theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
+          scaffoldBackgroundColor:  Color.fromARGB(255, 26,26,26),
+          textTheme: GoogleFonts.sourceSansProTextTheme(
+            Theme.of(context).textTheme
+          ),
         ),
         home: ProductList(),
         routes: {

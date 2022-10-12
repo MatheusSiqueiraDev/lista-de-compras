@@ -13,9 +13,6 @@ class ProductsForm extends StatelessWidget {
     _formData['id'] = product.id as String;
     _formData['name'] = product.name!;
     _formData['price'] = product.price!;
-    if(product.photoUrl != null) {
-      _formData['photoUrl'] = product.photoUrl!;
-    }
   }
 
   @override 
@@ -28,13 +25,15 @@ class ProductsForm extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário de Produtos'),
-        centerTitle: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20)
-          )
+        title: const Text(
+          'FORMULÁRIO DE PRODUTOS',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold
+          ),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: <Widget>[
           IconButton(
             onPressed: () { 
@@ -43,8 +42,7 @@ class ProductsForm extends StatelessWidget {
               Provider.of<Products>(context, listen: false).setProduct(
                 _formData['id'].toString(),
                 _formData['name'].toString(),
-                _formData['price'].toString(),
-                _formData['photoUrl'].toString()  
+                _formData['price'].toString() 
               );
               Navigator.of(context).pop();
             }, 
@@ -53,37 +51,67 @@ class ProductsForm extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: Form(
           key: _form,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                initialValue: _formData['name'],
-                decoration: InputDecoration(
-                  labelText: 'Nome'
+              Container(
+                margin: EdgeInsets.all(5.0),
+                child: TextFormField(
+                  initialValue: _formData['name'],
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                  ),
+                  decoration: const InputDecoration(
+                    labelText: 'Nome',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      color: Colors.deepPurpleAccent
+                    ),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 42,42,42),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.deepPurpleAccent),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
+                    ),
+                  ),
+                  onSaved: ((newName) => {
+                    _formData['name'] = newName!
+                  }),
                 ),
-                onSaved: ((newName) => {
-                  _formData['name'] = newName!
-                }),
               ),
-              TextFormField(
-                initialValue: _formData['price'],
-                decoration: InputDecoration(
-                  labelText: 'Preço'
+              Container(
+                margin: EdgeInsets.all(5.0),
+                child: TextFormField(
+                  initialValue: _formData['price'],
+                  keyboardType: TextInputType.number,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                  ),
+                  decoration: const InputDecoration(
+                    labelText: 'Preço',
+                    labelStyle: TextStyle(
+                      color: Colors.deepPurpleAccent
+                    ),
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 42,42,42),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.deepPurpleAccent),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
+                    ),
+                  ),
+                  onSaved: (newPrice) => {
+                    _formData['price'] = newPrice!
+                  },
                 ),
-                onSaved: (newPrice) => {
-                  _formData['price'] = newPrice!
-                },
-              ),
-              TextFormField(
-                initialValue: _formData['photoUrl'],
-                decoration: InputDecoration(
-                  labelText: 'URL da Foto'
-                ),
-                onSaved: (newPhotoUrl) => {
-                  _formData['photoUrl'] = newPhotoUrl!
-                },
               ),
             ]
           ),
