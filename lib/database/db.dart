@@ -35,8 +35,7 @@ class DB {
     CREATE TABLE product(
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT,
-      price TEXT,
-      photourl TEXT DEFAULT "default"
+      price TEXT
     )
   ''';
 }

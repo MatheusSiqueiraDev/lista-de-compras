@@ -12,59 +12,75 @@ class ProductsTile extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final photo = product.photoUrl == null || product.photoUrl!.isEmpty ? 
-    CircleAvatar(child: Icon(Icons.add_shopping_cart)) : 
-    CircleAvatar(backgroundImage: NetworkImage(product.photoUrl!));
-
-    return ListTile(
-      leading: photo,
-      title: Text(product.name!),
-      subtitle: Text('R\$${product.price}'),
-      trailing: Container(
-        width: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0)
+    return  Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 42,42,42),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),
+      child: ListTile(
+        leading: const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          child: Icon(
+            Icons.add_shopping_cart, 
+            color: Colors.deepPurpleAccent,
+          ), 
         ),
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                AppRoutes.PRODUCT_FORM,
-                arguments: product
-              ), 
-              color: Colors.orange,
-              icon: Icon(Icons.edit)
-            ),
-            IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context, 
-                  builder: (context) => AlertDialog(
-                    title: Text('Excluir Produto'),
-                    content: Text('Tem certeza?'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: Text('Não')
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: Text('Sim')
-                      ),
-                    ],
-                  )
-                ).then((value) {
-                  if(value) {
-                    Provider.of<Products>(context, listen: false).remove(product);
-                  }
-                });
-              },
-              color: Colors.red, 
-              icon: Icon(Icons.delete)
-            ),
-          ],
+        title: Text(product.name!, style: const TextStyle(
+          color: Colors.deepPurpleAccent,
+          fontWeight: FontWeight.bold
+        ),),
+        subtitle: Text('R\$${product.price}', style: const TextStyle(
+          color: Colors.white
+        ),),
+        trailing: Container(
+          width: 100,
+          child: Row(
+            children: <Widget>[
+              Container(
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    AppRoutes.PRODUCT_FORM,
+                    arguments: product
+                  ), 
+                  color: Colors.orangeAccent,
+                  icon: const Icon(Icons.edit),
+                ),
+              ),
+              Container(
+                child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context, 
+                      builder: (context) => AlertDialog(
+                        title: const Text('Excluir Produto'),
+                        content: const Text('Tem certeza?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('Não')
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('Sim')
+                          ),
+                        ],
+                      )
+                    ).then((value) {
+                      if(value) {
+                        Provider.of<Products>(context, listen: false).remove(product);
+                      }
+                    });
+                  },
+                  color: Colors.redAccent, 
+                  icon: const Icon(Icons.delete)
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
+    
   }
 }
