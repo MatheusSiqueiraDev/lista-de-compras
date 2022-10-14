@@ -1,4 +1,4 @@
-package com.example.lista_compras
+package com.matheusinventa.lista_compras
 
 import io.flutter.embedding.android.FlutterActivity
 
