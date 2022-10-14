@@ -41,7 +41,7 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_native_splash: ^1.2.0
   flutter_launcher_icons: ^0.9.1
-  masked_text: ^1.1.2
+  currency_text_input_formatter: ^2.1.7
 
 flutter_native_splash:
   color: "#1a1a1a"

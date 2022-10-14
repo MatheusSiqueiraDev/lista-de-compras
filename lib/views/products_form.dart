@@ -1,7 +1,9 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lista_compras/components/format_real_br.dart';
 import 'package:lista_compras/models/product.dart';
 import 'package:lista_compras/provider/products.dart';
-import 'package:masked_text/masked_text.dart';
 import 'package:provider/provider.dart';
 
 class ProductsForm extends StatelessWidget {
@@ -19,6 +21,7 @@ class ProductsForm extends StatelessWidget {
   @override 
   Widget build(BuildContext context) {
     final product = ModalRoute.of(context)?.settings.arguments;
+    final formatPrice = FormatRealBr();
    
     if(product != null) {
       _loadFormData(product as Product);
@@ -44,7 +47,7 @@ class ProductsForm extends StatelessWidget {
                 Provider.of<Products>(context, listen: false).setProduct(
                   _formData['id'].toString(),
                   _formData['name'].toString(),
-                  double.parse(_formData['price']!)
+                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.'))
                 );
                 Navigator.of(context).pop();
               }
@@ -71,7 +74,7 @@ class ProductsForm extends StatelessWidget {
                   initialValue: _formData['name'],
                   style: const TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.normal
                   ),
                   decoration: const InputDecoration(
                     labelText: 'Nome',
@@ -95,11 +98,14 @@ class ProductsForm extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.all(5.0),
-                child: MaskedTextField(
-                  mask: '##.##',
-                  initialValue: _formData['price'],
+                child: TextFormField(
+                  inputFormatters: <TextInputFormatter>[
+                    formatPrice.coin,
+                    LengthLimitingTextInputFormatter(15)
+                  ],
+                  initialValue: formatPrice.coin.format(_formData['price']??'0'),
                   validator: ((value) {
-                    if(value == null || value.isEmpty || double.parse(value) <= 0) {
+                    if(value == null || value.isEmpty || double.parse(value.replaceAll(RegExp(r'[^0-9]'), '')) <= 0) {
                       return 'Por favor, escreva um preço maior que zero';
                     } 
                     return null;
@@ -107,7 +113,7 @@ class ProductsForm extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.normal
                   ),
                   decoration: const InputDecoration(
                     labelText: 'Preço',

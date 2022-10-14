@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_compras/components/format_real_br.dart';
 import 'package:lista_compras/provider/products.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,7 @@ class ListTotals extends StatelessWidget {
                 ),
               ),
               Text(
-                'R\$ ${product.totalPrice.toStringAsFixed(2).toString()}',
+                FormatRealBr().coin.format(product.totalPrice.toStringAsFixed(2).toString().replaceAll('.', ',')),
                 style: const TextStyle(
                   color: Color.fromARGB(255, 255, 70, 57),
                   fontWeight: FontWeight.bold,

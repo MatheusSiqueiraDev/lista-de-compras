@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_compras/components/format_real_br.dart';
 import 'package:lista_compras/models/product.dart';
 import 'package:lista_compras/provider/products.dart';
 import 'package:lista_compras/routes/app_routes.dart';
@@ -12,6 +13,7 @@ class ProductsTile extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final formatPrice = FormatRealBr();
     return  Container(
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 42,42,42),
@@ -30,9 +32,12 @@ class ProductsTile extends StatelessWidget {
           color: Colors.deepPurpleAccent,
           fontWeight: FontWeight.bold
         ),),
-        subtitle: Text('R\$${product.price?.toStringAsFixed(2)}', style: const TextStyle(
-          color: Colors.white
-        ),),
+        subtitle: Text(
+          formatPrice.coin.format(product.price!.toStringAsFixed(2).toString().replaceAll('.', ',')), 
+          style: const TextStyle(
+            color: Colors.white
+          ),
+        ),
         trailing: Container(
           width: 100,
           child: Row(
