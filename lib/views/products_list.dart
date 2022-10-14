@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_compras/components/list_totals.dart';
 import 'package:lista_compras/components/products_tile.dart';
 import 'package:lista_compras/models/product.dart';
 import 'package:lista_compras/routes/app_routes.dart';
@@ -50,12 +51,19 @@ class ProductList extends StatelessWidget {
             )
         ],
       ),
-      body: ListView.builder(
-        itemCount: product.count,
-        itemBuilder: (context, index) => Container(
-          child: ProductsTile(product.byIndex(index))
-        ),
-      ),
+      body: Column(
+        children: <Widget>[
+          ListTotals(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: product.count,
+              itemBuilder: (context, index) => Container(
+                child: ProductsTile(product.byIndex(index))
+              ),
+            ),
+          ),
+        ],
+      ), 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           product.products;

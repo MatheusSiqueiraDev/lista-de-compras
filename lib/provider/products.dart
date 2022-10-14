@@ -7,6 +7,8 @@ import 'package:sqflite/sqflite.dart';
 class Products with ChangeNotifier {
 
   late Database db;
+
+  double _totalPrice = 0.0;
   
   List _product = [];
 
@@ -16,9 +18,15 @@ class Products with ChangeNotifier {
     return _product.length;
   }
 
+  double get totalPrice {
+    return _totalPrice;
+  }
+
   Products() {
     _initRepository();
   }
+
+  get total => null;
 
   _initRepository() async {
     await _getProducts();
@@ -28,15 +36,18 @@ class Products with ChangeNotifier {
     db = await DB.instance.database;
     List productQuery = await db.query('product');
     List listProduct = [];
+    double totalPrice = 0.0;
     for (var product in productQuery) { 
       Product newProduct = Product.fromMap(product); 
-      listProduct.add(newProduct); 
+      listProduct.add(newProduct);
+      totalPrice += newProduct.price!;
     } 
+    _totalPrice = totalPrice;
     _product = listProduct;
     notifyListeners();
   }
 
-  setProduct(String id, String name, String price) async {
+  setProduct(String id, String name, double price) async {
     Product? updateProduct = _productIsTable(id);
     db = await DB.instance.database;
     if(updateProduct != null) {

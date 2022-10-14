@@ -30,7 +30,7 @@ class ProductsTile extends StatelessWidget {
           color: Colors.deepPurpleAccent,
           fontWeight: FontWeight.bold
         ),),
-        subtitle: Text('R\$${product.price}', style: const TextStyle(
+        subtitle: Text('R\$${product.price?.toStringAsFixed(2)}', style: const TextStyle(
           color: Colors.white
         ),),
         trailing: Container(
