@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Dark Mode',
+        title: 'Lista de Compra',
         theme: ThemeData(
           scaffoldBackgroundColor:  Color.fromARGB(255, 26,26,26),
           textTheme: GoogleFonts.sourceSansProTextTheme(
