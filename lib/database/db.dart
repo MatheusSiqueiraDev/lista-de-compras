@@ -21,14 +21,26 @@ class DB {
   _initDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'products.db'),
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade
     );
   }
 
   _onCreate(db, version) async {
     await db.execute(_product);
   }
+
+  _onUpgrade(db, oldVersion, newVersion) async {
+    if(oldVersion < newVersion) {
+      db.execute(_productQty);
+    }
+  }
+
+  String get _productQty =>
+  '''
+    ALTER TABLE product ADD COLUMN qty INTEGER DEFAULT 1 NOT NULL 
+  ''';
 
   String get _product => 
   '''
