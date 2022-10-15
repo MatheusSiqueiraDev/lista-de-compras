@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Lista de Compra',
         theme: ThemeData(
           scaffoldBackgroundColor:  Color.fromARGB(255, 26,26,26),
