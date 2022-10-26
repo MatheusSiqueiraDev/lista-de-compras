@@ -141,12 +141,12 @@ class ProductsForm extends StatelessWidget {
                 margin: EdgeInsets.all(5.0),
                 child: TextFormField(
                   initialValue: _formData['qty']??'1',
-                  // validator: ((value) {
-                  //   if(value == null || value.isEmpty || double.parse(value.replaceAll(RegExp(r'[^0-9]'), '')) <= 0) {
-                  //     return 'Por favor, escreva um preço maior que zero';
-                  //   } 
-                  //   return null;
-                  // }),
+                  validator: ((value) {
+                    if(value == null || value.isEmpty || int.parse(value) <= 0) {
+                      return 'Por favor, escreva uma quantidade maior que zero';
+                    } 
+                    return null;
+                  }),
                   keyboardType: TextInputType.number,
                   style: const TextStyle(
                     color: Colors.white,
