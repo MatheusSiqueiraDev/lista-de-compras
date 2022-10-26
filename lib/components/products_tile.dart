@@ -39,7 +39,7 @@ class ProductsTile extends StatelessWidget {
           ),
         ),
         trailing: Container(
-          width: 100,
+          width: 150,
           child: Row(
             children: <Widget>[
               Container(
@@ -79,6 +79,19 @@ class ProductsTile extends StatelessWidget {
                   },
                   color: Colors.redAccent, 
                   icon: const Icon(Icons.delete)
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: 
+                    Text(
+                      product.qty.toString(), 
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               )
             ],

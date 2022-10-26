@@ -40,28 +40,29 @@ class Products with ChangeNotifier {
     for (var product in productQuery) { 
       Product newProduct = Product.fromMap(product); 
       listProduct.add(newProduct);
-      totalPrice += newProduct.price!;
+      totalPrice += newProduct.price! * newProduct.qty!;
     } 
     _totalPrice = totalPrice;
     _product = listProduct;
     notifyListeners();
   }
 
-  setProduct(String id, String name, double price) async {
+  setProduct(String id, String name, double price, int qty) async {
     Product? updateProduct = _productIsTable(id);
     db = await DB.instance.database;
     if(updateProduct != null) {
       await db.rawUpdate('''
         UPDATE product 
-        SET name = ?, price = ?
+        SET name = ?, price = ?, qty = ?
         WHERE id = ?
         ''', 
-        [name, price, id]
+        [name, price, qty, id]
       );
     } else {
       db.insert('product', {
         'name': name,
-        'price': price
+        'price': price,
+        'qty': qty
       });
     }
     _getProducts();

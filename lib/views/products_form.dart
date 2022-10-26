@@ -48,7 +48,8 @@ class ProductsForm extends StatelessWidget {
                 Provider.of<Products>(context, listen: false).setProduct(
                   _formData['id'].toString(),
                   _formData['name'].toString(),
-                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.'))
+                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
+                  int.parse(_formData['qty']!)
                 );
                 Navigator.of(context).pop();
               }
@@ -167,7 +168,7 @@ class ProductsForm extends StatelessWidget {
                     ),
                   ),
                   onSaved: (newPrice) => {
-                    _formData['price'] = newPrice!
+                    _formData['qty'] = newPrice!
                   },
                 ),
               ),
