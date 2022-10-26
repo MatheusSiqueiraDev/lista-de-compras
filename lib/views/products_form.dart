@@ -16,6 +16,7 @@ class ProductsForm extends StatelessWidget {
     _formData['id'] = product.id as String;
     _formData['name'] = product.name!;
     _formData['price'] = product.price.toString();
+    _formData['qty'] = product.qty.toString();
   }
 
   @override 
@@ -47,7 +48,8 @@ class ProductsForm extends StatelessWidget {
                 Provider.of<Products>(context, listen: false).setProduct(
                   _formData['id'].toString(),
                   _formData['name'].toString(),
-                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.'))
+                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
+                  int.parse(_formData['qty']!)
                 );
                 Navigator.of(context).pop();
               }
@@ -77,7 +79,7 @@ class ProductsForm extends StatelessWidget {
                     fontWeight: FontWeight.normal
                   ),
                   decoration: const InputDecoration(
-                    labelText: 'Nome',
+                    labelText: 'NOME',
                     border: OutlineInputBorder(),
                     labelStyle: TextStyle(
                       color: Colors.deepPurpleAccent
@@ -116,7 +118,7 @@ class ProductsForm extends StatelessWidget {
                     fontWeight: FontWeight.normal
                   ),
                   decoration: const InputDecoration(
-                    labelText: 'Preço',
+                    labelText: 'PREÇO',
                     labelStyle: TextStyle(
                       color: Colors.deepPurpleAccent
                     ),
@@ -135,6 +137,42 @@ class ProductsForm extends StatelessWidget {
                   },
                 ),
               ),
+              Container(
+                margin: EdgeInsets.all(5.0),
+                child: TextFormField(
+                  initialValue: _formData['qty']??'1',
+                  validator: ((value) {
+                    if(value == null || value.isEmpty || int.parse(value) <= 0) {
+                      return 'Por favor, escreva uma quantidade maior que zero';
+                    } 
+                    return null;
+                  }),
+                  keyboardType: TextInputType.number,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal
+                  ),
+                  decoration: const InputDecoration(
+                    labelText: 'QUANTIDADE',
+                    labelStyle: TextStyle(
+                      color: Colors.deepPurpleAccent
+                    ),
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 42,42,42),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.deepPurpleAccent),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
+                    ),
+                  ),
+                  onSaved: (newPrice) => {
+                    _formData['qty'] = newPrice!
+                  },
+                ),
+              ),
+             
             ]
           ),
         ),
