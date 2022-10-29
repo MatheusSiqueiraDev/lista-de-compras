@@ -32,9 +32,7 @@ class DB {
   }
 
   _onUpgrade(db, oldVersion, newVersion) async {
-    if(oldVersion < newVersion) {
-      db.execute(_productQty);
-    }
+    if(oldVersion < 2) db.execute(_productQty);
   }
 
   String get _productQty =>
@@ -47,7 +45,8 @@ class DB {
     CREATE TABLE product(
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT,
-      price DOUBLE
+      price DOUBLE,
+      qty INTEGER DEFAULT 1 NOT NULL 
     )
   ''';
 }

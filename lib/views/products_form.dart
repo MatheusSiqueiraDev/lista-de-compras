@@ -15,7 +15,7 @@ class ProductsForm extends StatelessWidget {
   void _loadFormData(Product product) {
     _formData['id'] = product.id as String;
     _formData['name'] = product.name!;
-    _formData['price'] = product.price.toString();
+    _formData['price'] = product.price!.toStringAsFixed(2).toString();
     _formData['qty'] = product.qty.toString();
   }
 
