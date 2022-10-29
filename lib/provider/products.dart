@@ -40,14 +40,14 @@ class Products with ChangeNotifier {
     for (var product in productQuery) { 
       Product newProduct = Product.fromMap(product); 
       listProduct.add(newProduct);
-      totalPrice += newProduct.price! * newProduct.qty!;
+      totalPrice += double.parse(newProduct.price!) * newProduct.qty!;
     } 
     _totalPrice = totalPrice;
     _product = listProduct;
     notifyListeners();
   }
 
-  setProduct(String id, String name, double price, int qty) async {
+  setProduct(String id, String name, String price, int qty) async {
     Product? updateProduct = _productIsTable(id);
     db = await DB.instance.database;
     if(updateProduct != null) {

@@ -33,7 +33,7 @@ class ProductsTile extends StatelessWidget {
           fontWeight: FontWeight.bold
         ),),
         subtitle: Text(
-          formatPrice.coin.format(product.price!.toStringAsFixed(2).toString().replaceAll('.', ',')), 
+          formatPrice.coin.format(double.parse(product.price!).toStringAsFixed(2).toString().replaceAll('.', ',')), 
           style: const TextStyle(
             color: Colors.white
           ),

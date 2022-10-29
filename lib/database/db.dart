@@ -21,7 +21,7 @@ class DB {
   _initDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'products.db'),
-      version: 2,
+      version: 3,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade
     );
@@ -32,14 +32,13 @@ class DB {
   }
 
   _onUpgrade(db, oldVersion, newVersion) async {
-    if(oldVersion < newVersion) {
-      db.execute(_productQty);
-    }
+    if(oldVersion < 2) db.execute(_productQty);
+    if(oldVersion < 3) db.execute(_alterTable);
   }
 
   String get _productQty =>
   '''
-    ALTER TABLE product ADD COLUMN qty INTEGER DEFAULT 1 NOT NULL 
+    ALTER TABLE product ADD COLUMN qty INTEGER DEFAULT 1 NOT NULL;
   ''';
 
   String get _product => 
@@ -47,7 +46,24 @@ class DB {
     CREATE TABLE product(
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT,
-      price DOUBLE
-    )
+      price TEXT,
+      qty INTEGER DEFAULT 1 NOT NULL 
+    );
+  ''';
+
+  String get _alterTable => 
+  '''
+    ALTER TABLE product RENAME TO product_old;
+
+    CREATE TABLE product(
+      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      name TEXT,
+      price TEXT,
+      qty INTEGER DEFAULT 1 NOT NULL 
+    );
+
+    INSERT INTO product (id,name,price,qty) SELECT id,name,price,qty FROM product_old;
+
+    DROP TABLE product_old;
   ''';
 }
