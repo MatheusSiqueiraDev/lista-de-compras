@@ -2,6 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lista_compras/components/format_real_br.dart';
+import 'package:lista_compras/components/forms/input_custom.dart';
 import 'package:lista_compras/models/product.dart';
 import 'package:lista_compras/provider/products.dart';
 import 'package:provider/provider.dart';
@@ -64,115 +65,51 @@ class ProductsForm extends StatelessWidget {
           key: _form,
           child: Column(
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(5.0),
-                child: TextFormField(
-                  validator: (value) {
-                    if(value == null || value.isEmpty) {
-                      return 'Escreva o nome do produto';
-                    }
-                    return null;
-                  },
-                  initialValue: _formData['name'],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'NOME',
-                    border: OutlineInputBorder(),
-                    labelStyle: TextStyle(
-                      color: Colors.deepPurpleAccent
-                    ),
-                    filled: true,
-                    fillColor: Color.fromARGB(255, 42,42,42),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.deepPurpleAccent),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
-                    ),
-                  ),
-                  onSaved: ((newName) => {
-                    _formData['name'] = newName!
-                  }),
-                ),
+              InputCustom(
+                initValue: _formData['name'],
+                label: 'NOME',
+                validator: (value) {
+                  if(value == null || value.isEmpty) {
+                    return 'Escreva o nome do produto';
+                  }
+                  return null;
+                },
+                save: ((newName) => {
+                  _formData['name'] = newName!
+                }), 
               ),
-              Container(
-                margin: EdgeInsets.all(5.0),
-                child: TextFormField(
-                  inputFormatters: <TextInputFormatter>[
-                    formatPrice.coin,
-                    LengthLimitingTextInputFormatter(15)
-                  ],
-                  initialValue: formatPrice.coin.format(_formData['price']??'0'),
-                  validator: ((value) {
-                    if(value == null || value.isEmpty || double.parse(value.replaceAll(RegExp(r'[^0-9]'), '')) <= 0) {
-                      return 'Por favor, escreva um preço maior que zero';
-                    } 
-                    return null;
-                  }),
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'PREÇO',
-                    labelStyle: TextStyle(
-                      color: Colors.deepPurpleAccent
-                    ),
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Color.fromARGB(255, 42,42,42),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.deepPurpleAccent),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
-                    ),
-                  ),
-                  onSaved: (newPrice) => {
-                    _formData['price'] = newPrice!
-                  },
-                ),
+              InputCustom(
+                initValue: formatPrice.coin.format(_formData['price']??'0'),
+                label: 'PREÇO',
+                validator: (value) {
+                  if(value == null || value.isEmpty || double.parse(value.replaceAll(RegExp(r'[^0-9]'), '')) <= 0) {
+                    return 'Por favor, escreva um preço maior que zero';
+                  } 
+                  return null;
+                },
+                save: (newPrice) => {
+                  _formData['price'] = newPrice!
+                }, 
+                typeKeyboard: TextInputType.number,
+                maskInput: <TextInputFormatter>[
+                  formatPrice.coin,
+                  LengthLimitingTextInputFormatter(15)
+                ],
               ),
-              Container(
-                margin: EdgeInsets.all(5.0),
-                child: TextFormField(
-                  initialValue: _formData['qty']??'1',
-                  validator: ((value) {
-                    if(value == null || value.isEmpty || int.parse(value) <= 0) {
-                      return 'Por favor, escreva uma quantidade maior que zero';
-                    } 
-                    return null;
-                  }),
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'QUANTIDADE',
-                    labelStyle: TextStyle(
-                      color: Colors.deepPurpleAccent
-                    ),
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Color.fromARGB(255, 42,42,42),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.deepPurpleAccent),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
-                    ),
-                  ),
-                  onSaved: (newPrice) => {
-                    _formData['qty'] = newPrice!
-                  },
-                ),
+              InputCustom(
+                initValue: _formData['qty'],
+                label: 'QUANTIDADE',
+                validator: (value) {
+                  if(value == null || value.isEmpty || int.parse(value) <= 0) {
+                    return 'Por favor, escreva uma quantidade maior que zero';
+                  } 
+                  return null;
+                },
+                save: (newQty) => {
+                  _formData['qty'] = newQty!
+                }, 
+                typeKeyboard: TextInputType.number
               ),
-             
             ]
           ),
         ),
