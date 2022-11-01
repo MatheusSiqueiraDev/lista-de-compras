@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 class ProductsForm extends StatelessWidget {
   
   final _form = GlobalKey<FormState>();
+
+  int idList = 0;
   
   final Map<String, String> _formData = {};
 
@@ -25,11 +27,14 @@ class ProductsForm extends StatelessWidget {
     final product = ModalRoute.of(context)?.settings.arguments;
     final formatPrice = FormatRealBr();
    
-    if(product != null) {
+    if(product != null && product is Product) {
       _loadFormData(product as Product);
+    } else {
+      idList = product as int;
     }
     
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         title: const Text(
           'FORMULÁRIO DE PRODUTOS',
@@ -50,7 +55,8 @@ class ProductsForm extends StatelessWidget {
                   _formData['id'].toString(),
                   _formData['name'].toString(),
                   double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
-                  int.parse(_formData['qty']!)
+                  int.parse(_formData['qty']!),
+                  idList
                 );
                 Navigator.of(context).pop();
               }

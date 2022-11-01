@@ -29,12 +29,15 @@ class Products with ChangeNotifier {
   get total => null;
 
   _initRepository() async {
-    await _getProducts();
+    await _initDb();
   }
 
-  _getProducts() async {
+  _initDb() async {
     db = await DB.instance.database;
-    List productQuery = await db.query('product');
+  }
+
+  _getProducts(int listId) async {
+    List productQuery = await db.rawQuery('select * from product WHERE listId = ?', [listId]);
     List listProduct = [];
     double totalPrice = 0.0;
     for (var product in productQuery) { 
@@ -47,9 +50,8 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  setProduct(String id, String name, double price, int qty) async {
+  setProduct(String id, String name, double price, int qty, int listId) async {
     Product? updateProduct = _productIsTable(id);
-    db = await DB.instance.database;
     if(updateProduct != null) {
       await db.rawUpdate('''
         UPDATE product 
@@ -62,11 +64,16 @@ class Products with ChangeNotifier {
       db.insert('product', {
         'name': name,
         'price': price,
-        'qty': qty
+        'qty': qty,
+        'listId': listId
       });
     }
-    _getProducts();
+    _getProducts(listId);
   }
+
+  void initList(listId) {
+    _getProducts(listId);
+  } 
 
   _productIsTable(id) {
     for (var product in _product) { 
@@ -87,17 +94,17 @@ class Products with ChangeNotifier {
         ''', 
         [product.id]
       );
-      _getProducts();
+      // _getProducts();
     }
   }
 
-  Future<void> removeAllProducts () async {
+  Future<void> removeAllProducts(int listId) async {
     if(_product.isEmpty == false) {  
       await db.rawDelete('''
-          DELETE FROM product 
+          DELETE FROM product WHERE listId = ? 
         ''', 
+        [listId]
       );
-      _getProducts();
     }
   }
 }
