@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lista_compras/components/format_real_br.dart';
-import 'package:lista_compras/provider/products.dart';
+import 'package:lista_compras/provider/getData.dart';
 import 'package:provider/provider.dart';
 
 class ListTotals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Products product = Provider.of(context);
+    final GetData dataDb = Provider.of(context);
     return Container(
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 26,26,26),
@@ -29,7 +29,7 @@ class ListTotals extends StatelessWidget {
                 ),
               ),
               Text(
-                FormatRealBr().coin.format(product.totalPrice.toStringAsFixed(2).toString().replaceAll('.', ',')),
+                FormatRealBr().coin.format(dataDb.totalPrice.toStringAsFixed(2).toString().replaceAll('.', ',')),
                 style: const TextStyle(
                   color: Color.fromARGB(255, 255, 70, 57),
                   fontWeight: FontWeight.bold,
