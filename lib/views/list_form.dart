@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lista_compras/components/forms/input_custom.dart';
 import 'package:lista_compras/models/list_buy.dart';
 import 'package:lista_compras/models/product.dart';
-import 'package:lista_compras/provider/lists.dart';
+import 'package:lista_compras/provider/getData.dart';
 import 'package:provider/provider.dart';
 
 class ListsForm extends StatelessWidget {
@@ -20,7 +20,7 @@ class ListsForm extends StatelessWidget {
   
   @override 
   Widget build(BuildContext context) {
-    final Lists list = Provider.of(context);
+    final GetData list = Provider.of(context);
     final listBuy = ModalRoute.of(context)?.settings.arguments;
 
     if(listBuy != null && listBuy is ListBuy) {
@@ -28,7 +28,15 @@ class ListsForm extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('FORMULÁRIO DE LISTA'),
+        title: const Text(
+          'FORMULÁRIO DE LISTA',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: <Widget>[
           IconButton(
             onPressed: () {

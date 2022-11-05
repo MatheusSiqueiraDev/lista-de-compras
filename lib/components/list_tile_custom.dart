@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_compras/models/list_buy.dart';
-import 'package:lista_compras/provider/lists.dart';
-import 'package:lista_compras/provider/products.dart';
+import 'package:lista_compras/provider/getData.dart';
 import 'package:lista_compras/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -13,22 +12,24 @@ class ListTileCustom extends StatelessWidget {
 
   @override 
   Widget build(BuildContext context) {
-    final Products product = Provider.of(context);
-    final Lists lists = Provider.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 42,42,42),
+    final GetData dataDb = Provider.of(context);
+    return Card(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
+      color: const Color.fromARGB(255, 42,42,42),
       margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),
       child: ListTile(
         onTap: () {
-          product.initList(listBuy.id);
+          dataDb.initList(listBuy.id);
           Navigator.of(context).pushNamed(
             AppRoutes.PRODUCT_LIST,
             arguments: listBuy
           );
         },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         title: Text(
           listBuy.name!,
           style: const TextStyle(
@@ -70,8 +71,7 @@ class ListTileCustom extends StatelessWidget {
                       )
                     ).then((value) {
                       if(value) {
-                        product.initList(listBuy.id);
-                        lists.remove(listBuy);
+                        dataDb.removeList(listBuy);
                       }
                     });
                   },

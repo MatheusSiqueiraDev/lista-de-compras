@@ -38,6 +38,8 @@ class DB {
     if(oldVersion < 3) {
       db.execute(_productListId);
       db.execute(_list);
+      db.execute(_addProductsInList);
+      db.execute(_setValuesFirtList);
     }
   }
 
@@ -56,9 +58,9 @@ class DB {
   '''
     CREATE TABLE list(
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      name TEXT,
-      priceTotal DOUBLE,
-      qtyProduct INTEGER DEFAULT 0 
+      name TEXT NOT NULL,
+      priceTotal DOUBLE DEFAULT 0 NOT NULL,
+      qtyProduct INTEGER DEFAULT 0 NOT NULL
     );
   ''';
 
@@ -70,5 +72,17 @@ class DB {
   String get _productListId => 
   '''
     ALTER TABLE product ADD COLUMN listId INTEGER DEFAULT 0
+  ''';
+
+  String get _addProductsInList =>
+  '''
+    UPDATE product
+    SET listId = 1;
+  ''';
+
+  String get _setValuesFirtList =>
+  '''
+    INSERT INTO list (name)
+    VALUES("Primeira Lista");
   ''';
 }

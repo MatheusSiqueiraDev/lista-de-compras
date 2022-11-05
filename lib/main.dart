@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lista_compras/provider/lists.dart';
-import 'package:lista_compras/provider/products.dart';
+import 'package:lista_compras/provider/getData.dart';
 import 'package:lista_compras/routes/app_routes.dart';
 import 'package:lista_compras/views/list_form.dart';
 import 'package:lista_compras/views/products_form.dart';
@@ -26,10 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => Products(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Lists()
+          create: (context) => GetData()
         )
       ],
       child: MaterialApp(
