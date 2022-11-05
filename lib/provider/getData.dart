@@ -186,7 +186,7 @@ class GetData with ChangeNotifier {
   double _getTotalPrice(List listProduct) {
     double totalPrice = 0.0;
     for(Product product in listProduct) { 
-      totalPrice += product.price!;
+      totalPrice += product.price! * product.qty!;
     }
 
     return totalPrice;
