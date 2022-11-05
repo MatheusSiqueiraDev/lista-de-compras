@@ -21,13 +21,26 @@ class DB {
   _initDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'products.db'),
-      version: 1,
+      version: 3,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade
     );
   }
 
   _onCreate(db, version) async {
     await db.execute(_product);
+    await db.execute(_list);
+  }
+
+  _onUpgrade(db, oldVersion, newVersion) async {
+    if(oldVersion < 2) db.execute(_productQty);
+    
+    if(oldVersion < 3) {
+      db.execute(_productListId);
+      db.execute(_list);
+      db.execute(_addProductsInList);
+      db.execute(_setValuesFirtList);
+    }
   }
 
   String get _product => 
@@ -35,7 +48,41 @@ class DB {
     CREATE TABLE product(
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT,
-      price DOUBLE
-    )
+      price DOUBLE,
+      qty INTEGER DEFAULT 1 NOT NULL,
+      listId INTEGER NOT NULL
+    );
+  ''';
+
+  String get _list => 
+  '''
+    CREATE TABLE list(
+      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      name TEXT NOT NULL,
+      priceTotal DOUBLE DEFAULT 0 NOT NULL,
+      qtyProduct INTEGER DEFAULT 0 NOT NULL
+    );
+  ''';
+
+  String get _productQty =>
+  '''
+    ALTER TABLE product ADD COLUMN qty INTEGER DEFAULT 1 NOT NULL 
+  ''';
+
+  String get _productListId => 
+  '''
+    ALTER TABLE product ADD COLUMN listId INTEGER DEFAULT 0
+  ''';
+
+  String get _addProductsInList =>
+  '''
+    UPDATE product
+    SET listId = 1;
+  ''';
+
+  String get _setValuesFirtList =>
+  '''
+    INSERT INTO list (name)
+    VALUES("Primeira Lista");
   ''';
 }
