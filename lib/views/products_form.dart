@@ -47,24 +47,6 @@ class ProductsForm extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () { 
-              if(_form.currentState!.validate()) {
-                _form.currentState?.save();
-                dataDb.setProduct(
-                  _formData['id'].toString(),
-                  _formData['name'].toString(),
-                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
-                  int.parse(_formData['qty']!),
-                  _formData['listId']
-                );
-                Navigator.of(context).pop();
-              }
-            }, 
-            icon: Icon(Icons.save_alt)
-          )
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(5),
@@ -117,6 +99,31 @@ class ProductsForm extends StatelessWidget {
                 }, 
                 typeKeyboard: TextInputType.number
               ),
+              Container(
+                alignment: Alignment.topRight,
+                margin: const EdgeInsets.only(left: 15.0, right: 5.0, top: 5.0, bottom: 5.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(100, 50),
+                    primary: Colors.deepPurpleAccent,
+
+                  ),
+                  onPressed: () {
+                    if(_form.currentState!.validate()) {
+                      _form.currentState?.save();
+                      dataDb.setProduct(
+                        _formData['id'].toString(),
+                        _formData['name'].toString(),
+                        double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
+                        int.parse(_formData['qty']!),
+                        _formData['listId']
+                      );
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Text('SALVAR'),
+                )
+              )
             ]
           ),
         ),
