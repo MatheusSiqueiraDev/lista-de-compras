@@ -58,12 +58,15 @@ class ProductList extends StatelessWidget {
         children: <Widget>[
           ListTotals(),
           Expanded(
-            child: ListView.builder(
-              itemCount: dataDb.countProduct,
-              itemBuilder: (context, index) => Container(
-                child: ProductsTile(dataDb.byIndexProduct(index))
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 0),
+              child: ListView.builder(
+                itemCount: dataDb.countProduct,
+                itemBuilder: (context, index) => Container(
+                  child: ProductsTile(dataDb.byIndexProduct(index))
+                ),
               ),
-            ),
+            )
           ),
         ],
       ), 

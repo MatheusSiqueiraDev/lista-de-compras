@@ -19,19 +19,22 @@ class ShoppingList extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
-            color: Colors.deepPurpleAccent
+            color: Colors.white
           ),
         ),
       ),
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              itemCount: dataDb.countList,
-              itemBuilder: (context, index) => Container(
-                child: ListTileCustom(dataDb.byIndexList(index)),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 0),
+              child: ListView.builder(
+                itemCount: dataDb.countList,
+                itemBuilder: (context, index) => Container(
+                  child: ListTileCustom(dataDb.byIndexList(index)),
+                ),
               ),
-            ),
+            )
           )
         ],
       ),

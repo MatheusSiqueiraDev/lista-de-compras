@@ -15,92 +15,114 @@ class ProductsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final GetData dataDb = Provider.of(context);
     final formatPrice = FormatRealBr();
-    return  Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.only(left: 0, right: 0, top: 5.0, bottom: 5.0),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(255, 58, 58, 58).withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: Offset(0, 2), 
+          )
+        ]
       ),
-      color: const Color.fromARGB(255, 42,42,42),
-      margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),
-      child: ListTile(
-        leading: const CircleAvatar(
-          backgroundColor: Colors.transparent,
-          child: Icon(
-            Icons.add_shopping_cart, 
-            color: Colors.deepPurpleAccent,
-          ), 
+      child: Dismissible(
+        key: UniqueKey(), 
+        onDismissed: (DismissDirection direction) {
+          if(direction == DismissDirection.endToStart) {
+            dataDb.removeProduct(product);
+          }
+
+          if(direction == DismissDirection.startToEnd) {
+            Navigator.of(context).pushNamed(
+              AppRoutes.PRODUCT_FORM,
+              arguments: product
+            );
+          }
+        },
+        background: Container(
+          alignment: Alignment.centerLeft,
+          color: Colors.orangeAccent,
+          padding: const EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+          child: const Icon(
+            Icons.edit, 
+            color: Colors.white,
+          )   
         ),
-        title: Text(product.name!, style: const TextStyle(
-          color: Colors.deepPurpleAccent,
-          overflow: TextOverflow.ellipsis,
-          fontWeight: FontWeight.bold
-        ),),
-        subtitle: Text(
-          formatPrice.coin.format(product.price!.toStringAsFixed(2).toString().replaceAll('.', ',')), 
-          style: const TextStyle(
-            color: Colors.white
+        secondaryBackground: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.only(left: 0, right: 20, top: 0, bottom: 0),
+          color: Color.fromARGB(255, 212, 43, 43),
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
           ),
         ),
-        trailing: Container(
-          width: 120,
-          child: Row(
-            children: <Widget>[
-              Container(
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pushNamed(
-                    AppRoutes.PRODUCT_FORM,
-                    arguments: product
-                  ), 
-                  color: Colors.orangeAccent,
-                  icon: const Icon(Icons.edit),
-                ),
+        child:  Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+          ),
+          margin: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+          color: const Color.fromARGB(255, 42,42,42),
+          child: ListTile(
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(
+                Icons.add_shopping_cart, 
+                color: Colors.deepPurpleAccent,
+              ), 
+            ),
+            title: Text(product.name!, style: const TextStyle(
+              color: Colors.deepPurpleAccent,
+              overflow: TextOverflow.ellipsis,
+              fontWeight: FontWeight.bold
+            ),),
+            subtitle: Text(
+              formatPrice.coin.format(product.price!.toStringAsFixed(2).toString().replaceAll('.', ',')), 
+              style: const TextStyle(
+                color: Colors.white
               ),
-              Container(
-                child: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context, 
-                      builder: (context) => AlertDialog(
-                        title: const Text('Excluir Produto'),
-                        content: const Text('Tem certeza?'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: const Text('Não')
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: const Text('Sim')
-                          ),
-                        ],
-                      )
-                    ).then((value) {
-                      if(value) {
-                        dataDb.removeProduct(product);
-                      }
-                    });
-                  },
-                  color: Colors.redAccent, 
-                  icon: const Icon(Icons.delete)
-                ),
-              ),
-              Flexible(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: 
-                    Text(
-                      product.qty.toString(), 
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                      color: Colors.white,
+            ),
+            trailing: Container(
+              width: 150,
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      child: 
+                        Text(
+                          product.qty.toString(), 
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                  Container(
+                    child:  Checkbox(
+                      checkColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      fillColor: MaterialStateProperty.resolveWith((states) => product.buy == 0 ? Colors.deepPurpleAccent : Colors.deepPurpleAccent),
+                      value: product.buy == 0 ? false : true,
+                      onChanged: (bool? value) {
+                        dataDb.changeBuyProduct(product.id.toString(), value, product.listId ?? 0);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        )
+      )
+      
     );
-    
   }
 }

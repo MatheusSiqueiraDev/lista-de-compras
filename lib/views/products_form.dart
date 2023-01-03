@@ -45,6 +45,13 @@ class ProductsForm extends StatelessWidget {
             fontWeight: FontWeight.bold
           ),
         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 255, 255)),
+          onPressed: () {
+            dataDb.notify();
+            Navigator.of(context).pop();
+          },
+        ), 
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -99,14 +106,13 @@ class ProductsForm extends StatelessWidget {
                 }, 
                 typeKeyboard: TextInputType.number
               ),
-              Container(
+               Container(
                 alignment: Alignment.topRight,
                 margin: const EdgeInsets.only(left: 15.0, right: 5.0, top: 5.0, bottom: 5.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(100, 50),
                     primary: Colors.deepPurpleAccent,
-
                   ),
                   onPressed: () {
                     if(_form.currentState!.validate()) {
