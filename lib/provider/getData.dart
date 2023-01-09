@@ -10,6 +10,10 @@ class GetData with ChangeNotifier {
   List _list = [];
 
   double _totalPrice = 0.0;
+  
+  double _spendingPrice = 0.0;
+
+  double _pendingPrice = 0.0;
 
   int _qtyProducts = 0;
 
@@ -39,12 +43,24 @@ class GetData with ChangeNotifier {
     return _totalPrice;
   }
 
+  double get spending {
+    return _spendingPrice;
+  }
+
+  double get pendingPrice {
+    return _pendingPrice;
+  }
+
   ListBuy byIndexList(int i) {
     return _list[i];
   }
 
   Product byIndexProduct(int i) {
     return _product[i];
+  }
+
+  void notify() {
+    notifyListeners();
   }
 
   _getLists() async {
@@ -110,6 +126,8 @@ class GetData with ChangeNotifier {
     _product = await getListProducts(listId);
     _totalPrice = _getTotalPrice(_product);
     _qtyProducts = _getQtyProducts(_product);
+    _spendingPrice = _getSpendingPrice(_product);
+    _pendingPrice = _getPendingPrice(_totalPrice, _spendingPrice);
 
     notifyListeners();
   }
@@ -185,12 +203,29 @@ class GetData with ChangeNotifier {
 
   double _getTotalPrice(List listProduct) {
     double totalPrice = 0.0;
-    for(Product product in listProduct) { 
+    for(Product product in listProduct) {
       totalPrice += product.price! * product.qty!;
     }
 
     return totalPrice;
   }
+
+  double _getSpendingPrice(List listProduct) {
+    double totalPrice = 0.0;
+    for(Product product in listProduct) {
+      if(product.buy != 0) {
+        totalPrice += product.price! * product.qty!;
+      } 
+    }
+
+    return totalPrice;
+  }
+
+  double _getPendingPrice(double totalPrice, double spendingPrice) {
+    return totalPrice - spendingPrice;
+  }
+  
+
 
   int _getQtyProducts(List listProduct) {
     int qty = 0;
@@ -199,5 +234,20 @@ class GetData with ChangeNotifier {
     }
     
     return qty;
+  }
+
+  void changeBuyProduct(String id, bool? buy, int listId) async {
+    Product? updateProduct = _productIsTable(id);
+    final int isBuy = buy == false ? 0 : 1;
+    if(updateProduct != null) {
+      await db.rawUpdate('''
+        UPDATE product 
+        SET buy = ?
+        WHERE id = ?
+        ''', 
+        [isBuy, id]
+      );
+    } 
+    await _getDataProducts(listId);
   }
 }

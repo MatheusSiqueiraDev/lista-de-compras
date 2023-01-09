@@ -13,73 +13,70 @@ class ListTileCustom extends StatelessWidget {
   @override 
   Widget build(BuildContext context) {
     final GetData dataDb = Provider.of(context);
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.only(left: 0, right: 0, top: 5.0, bottom: 5.0),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(255, 58, 58, 58).withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: Offset(0, 2), 
+          )
+        ]
       ),
-      color: const Color.fromARGB(255, 42,42,42),
-      margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),
-      child: ListTile(
-        onTap: () {
-          dataDb.initList(listBuy.id);
-          Navigator.of(context).pushNamed(
-            AppRoutes.PRODUCT_LIST,
-            arguments: listBuy
-          );
+      child: Dismissible(
+        key: UniqueKey(), 
+        onDismissed: (DismissDirection direction) {
+          if(direction == DismissDirection.endToStart) {
+            dataDb.removeList(listBuy);
+          }
+
+          if(direction == DismissDirection.startToEnd) {
+            Navigator.of(context).pushNamed(
+              AppRoutes.LIST_FORM,
+              arguments: listBuy
+            );
+            dataDb.notify();
+          }
         },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+        background: Container(
+          alignment: Alignment.centerLeft,
+          color: Colors.orangeAccent,
+          padding: const EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+          child: const Icon(
+            Icons.edit, 
+            color: Colors.white,
+          )   
         ),
-        title: Text(
-          listBuy.name!,
-          style: const TextStyle(
-          color: Colors.deepPurpleAccent,
-          fontWeight: FontWeight.bold
-        )),
-        trailing: Container(
-          width: 100,
-          child: Row(
-            children: <Widget>[
-              Container(
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pushNamed(
-                    AppRoutes.LIST_FORM,
-                    arguments: listBuy
-                  ),
-                  color: Colors.orangeAccent,
-                  icon: const Icon(Icons.edit),
-                ),
-              ),
-              Container(
-                child: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context, 
-                      builder: (context) => AlertDialog(
-                        title: const Text('Excluir Lista'),
-                        content: const Text('Tem certeza?'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: const Text('Não')
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: const Text('Sim')
-                          ),
-                        ],
-                      )
-                    ).then((value) {
-                      if(value) {
-                        dataDb.removeList(listBuy);
-                      }
-                    });
-                  },
-                  color: Colors.redAccent, 
-                  icon: const Icon(Icons.delete)
-                ),
-              ),
-            ],
+        secondaryBackground: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.only(left: 0, right: 20, top: 0, bottom: 0),
+          color: Color.fromARGB(255, 212, 43, 43),
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        ),
+        child: ListTile(
+          onTap: () {
+            dataDb.initList(listBuy.id);
+            Navigator.of(context).pushNamed(
+              AppRoutes.PRODUCT_LIST,
+              arguments: listBuy
+            );
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text(
+            listBuy.name!,
+            style: const TextStyle(
+              color: Colors.deepPurpleAccent,
+              fontWeight: FontWeight.bold
+            )
           ),
         ),
       ),

@@ -36,7 +36,7 @@ class ProductsForm extends StatelessWidget {
     }
     
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset : true,
       appBar: AppBar(
         title: const Text(
           'FORMULÁRIO DE PRODUTOS',
@@ -47,76 +47,86 @@ class ProductsForm extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () { 
-              if(_form.currentState!.validate()) {
-                _form.currentState?.save();
-                dataDb.setProduct(
-                  _formData['id'].toString(),
-                  _formData['name'].toString(),
-                  double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
-                  int.parse(_formData['qty']!),
-                  _formData['listId']
-                );
-                Navigator.of(context).pop();
-              }
-            }, 
-            icon: Icon(Icons.save_alt)
-          )
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(5),
         child: Form(
           key: _form,
-          child: Column(
+          child: ListView(
             children: <Widget>[
-              InputCustom(
-                initValue: _formData['name'],
-                label: 'NOME',
-                validator: (value) {
-                  if(value == null || value.isEmpty) {
-                    return 'Escreva o nome do produto';
-                  }
-                  return null;
-                },
-                save: ((newName) => {
-                  _formData['name'] = newName!
-                }), 
-              ),
-              InputCustom(
-                initValue: formatPrice.coin.format(_formData['price']??'0'),
-                label: 'PREÇO',
-                validator: (value) {
-                  if(value == null || value.isEmpty || double.parse(value.replaceAll(RegExp(r'[^0-9]'), '')) < 0) {
-                    return 'Por favor, escreva um preço maior que zero';
-                  } 
-                  return null;
-                },
-                save: (newPrice) => {
-                  _formData['price'] = newPrice!
-                }, 
-                typeKeyboard: TextInputType.number,
-                maskInput: <TextInputFormatter>[
-                  formatPrice.coin,
-                  LengthLimitingTextInputFormatter(15)
-                ],
-              ),
-              InputCustom(
-                initValue: _formData['qty'],
-                label: 'QUANTIDADE',
-                validator: (value) {
-                  if(value == null || value.isEmpty || int.parse(value) <= 0) {
-                    return 'Por favor, escreva uma quantidade maior que zero';
-                  } 
-                  return null;
-                },
-                save: (newQty) => {
-                  _formData['qty'] = newQty!
-                }, 
-                typeKeyboard: TextInputType.number
-              ),
+              Column(
+                children: <Widget>[
+                  InputCustom(
+                    initValue: _formData['name'],
+                    label: 'NOME',
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return 'Escreva o nome do produto';
+                      }
+                      return null;
+                    },
+                    save: ((newName) => {
+                      _formData['name'] = newName!
+                    }), 
+                  ),
+                  InputCustom(
+                    initValue: formatPrice.coin.format(_formData['price']??'0'),
+                    label: 'PREÇO',
+                    validator: (value) {
+                      if(value == null || value.isEmpty || double.parse(value.replaceAll(RegExp(r'[^0-9]'), '')) < 0) {
+                        return 'Por favor, escreva um preço maior que zero';
+                      } 
+                      return null;
+                    },
+                    save: (newPrice) => {
+                      _formData['price'] = newPrice!
+                    }, 
+                    typeKeyboard: TextInputType.number,
+                    maskInput: <TextInputFormatter>[
+                      formatPrice.coin,
+                      LengthLimitingTextInputFormatter(15)
+                    ],
+                  ),
+                  InputCustom(
+                    initValue: _formData['qty'],
+                    label: 'QUANTIDADE',
+                    validator: (value) {
+                      if(value == null || value.isEmpty || int.parse(value) <= 0) {
+                        return 'Por favor, escreva uma quantidade maior que zero';
+                      } 
+                      return null;
+                    },
+                    save: (newQty) => {
+                      _formData['qty'] = newQty!
+                    }, 
+                    typeKeyboard: TextInputType.number
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    margin: const EdgeInsets.only(left: 15.0, right: 5.0, top: 5.0, bottom: 5.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(100, 50),
+                        primary: Colors.deepPurpleAccent,
+                      ),
+                      onPressed: () {
+                        if(_form.currentState!.validate()) {
+                          _form.currentState?.save();
+                          dataDb.setProduct(
+                            _formData['id'].toString(),
+                            _formData['name'].toString(),
+                            double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
+                            int.parse(_formData['qty']!),
+                            _formData['listId']
+                          );
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: Text('SALVAR'),
+                    )
+                  )
+                ]
+              )
             ]
           ),
         ),

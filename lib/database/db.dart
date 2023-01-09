@@ -21,7 +21,7 @@ class DB {
   _initDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'products.db'),
-      version: 3,
+      version: 4,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade
     );
@@ -41,6 +41,10 @@ class DB {
       db.execute(_addProductsInList);
       db.execute(_setValuesFirtList);
     }
+
+    if(oldVersion < 4) {
+      db.execute(_addCheckBox);
+    }
   }
 
   String get _product => 
@@ -50,7 +54,8 @@ class DB {
       name TEXT,
       price DOUBLE,
       qty INTEGER DEFAULT 1 NOT NULL,
-      listId INTEGER NOT NULL
+      listId INTEGER NOT NULL,
+      buy INTEGER DEFAULT 0 NOT NULL
     );
   ''';
 
@@ -84,5 +89,10 @@ class DB {
   '''
     INSERT INTO list (name)
     VALUES("Primeira Lista");
+  ''';
+
+  String get _addCheckBox =>
+  '''
+    ALTER TABLE product ADD COLUMN buy INTEGER DEFAULT 0 NOT NULL
   ''';
 }

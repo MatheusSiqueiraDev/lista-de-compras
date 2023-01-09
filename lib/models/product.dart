@@ -4,8 +4,9 @@ class Product {
   double? price;
   int? qty;
   int? listId;
+  int? buy;
 
-  Product(this.id, this.name, this.price, this.qty, this.listId);
+  Product(this.id, this.name, this.price, this.qty, this.listId, this.buy);
 
   factory Product.fromMap(Map<String, dynamic> data) {
       return Product( 
@@ -13,7 +14,8 @@ class Product {
          data['name'], 
          data['price'],
          data['qty'],
-         data['listId']
+         data['listId'],
+         data['buy']
       ); 
    }
 
@@ -21,6 +23,7 @@ class Product {
       "id": id, 
       "name": name, 
       "price": price,
-      "listId": listId
+      "listId": listId,
+      "buy": buy
    }; 
 }
