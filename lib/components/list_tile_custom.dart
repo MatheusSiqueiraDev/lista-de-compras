@@ -39,6 +39,7 @@ class ListTileCustom extends StatelessWidget {
               AppRoutes.LIST_FORM,
               arguments: listBuy
             );
+            dataDb.notify();
           }
         },
         background: Container(

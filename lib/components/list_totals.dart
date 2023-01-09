@@ -30,6 +30,7 @@ class ListTotals extends StatelessWidget {
                 ),
                 Text(
                   FormatRealBr().coin.format(dataDb.spending.toStringAsFixed(2).toString().replaceAll('.', ',')),
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 255, 70, 57),
                     fontWeight: FontWeight.bold,
@@ -53,6 +54,7 @@ class ListTotals extends StatelessWidget {
                 ),
                 Text(
                   FormatRealBr().coin.format(dataDb.totalPrice.toStringAsFixed(2).toString().replaceAll('.', ',')),
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 18, 178, 109),
                     fontWeight: FontWeight.bold,
@@ -76,6 +78,7 @@ class ListTotals extends StatelessWidget {
                 ),
                 Text(
                   FormatRealBr().coin.format(dataDb.pendingPrice.toStringAsFixed(2).toString().replaceAll('.', ',')),
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 246, 197, 53),
                     fontWeight: FontWeight.bold,

@@ -36,13 +36,6 @@ class ListsForm extends StatelessWidget {
             fontWeight: FontWeight.bold
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () {
-            list.notify();
-            Navigator.of(context).pop();
-          },
-        ), 
         backgroundColor: Colors.transparent,
         elevation: 0
       ),

@@ -41,6 +41,7 @@ class ProductsTile extends StatelessWidget {
               AppRoutes.PRODUCT_FORM,
               arguments: product
             );
+            dataDb.notify();
           }
         },
         background: Container(
