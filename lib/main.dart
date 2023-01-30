@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Color.fromARGB(255, 26,26,26)
     ));
     return MultiProvider(
@@ -32,9 +32,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Lista de Compra',
         theme: ThemeData(
-          scaffoldBackgroundColor:  Color.fromARGB(255, 26,26,26),
+          scaffoldBackgroundColor:Color.fromARGB(255, 26,26,26),
           textTheme: GoogleFonts.sourceSansProTextTheme(
             Theme.of(context).textTheme
+          ),
+          colorScheme: ColorScheme.fromSwatch(
+            accentColor: Colors.deepPurpleAccent, // but now it should be declared like this
           ),
         ),
         home: ShoppingList(),
