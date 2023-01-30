@@ -1,7 +1,9 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lista_compras/components/format_real_br.dart';
+import 'package:lista_compras/components/appbar_custom.dart';
+import 'package:lista_compras/components/forms/submit.dart';
+import 'package:lista_compras/components/text/format_real_br.dart';
 import 'package:lista_compras/components/forms/input_custom.dart';
 import 'package:lista_compras/models/product.dart';
 import 'package:lista_compras/provider/getData.dart';
@@ -36,17 +38,8 @@ class ProductsForm extends StatelessWidget {
     }
     
     return Scaffold(
-      resizeToAvoidBottomInset : true,
-      appBar: AppBar(
-        title: const Text(
-          'FORMULÁRIO DE PRODUTOS',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      appBar: AppBarCustom(
+        titleCustom: 'FORMULÁRIO DE PRODUTOS',
       ),
       body: Padding(
         padding: EdgeInsets.all(5),
@@ -101,30 +94,22 @@ class ProductsForm extends StatelessWidget {
                     }, 
                     typeKeyboard: TextInputType.number
                   ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    margin: const EdgeInsets.only(left: 15.0, right: 5.0, top: 5.0, bottom: 5.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(100, 50),
-                        primary: Colors.deepPurpleAccent,
-                      ),
-                      onPressed: () {
-                        if(_form.currentState!.validate()) {
-                          _form.currentState?.save();
-                          dataDb.setProduct(
-                            _formData['id'].toString(),
-                            _formData['name'].toString(),
-                            double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
-                            int.parse(_formData['qty']!),
-                            _formData['listId']
-                          );
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Text('SALVAR'),
-                    )
-                  )
+                  Submit(
+                    title: 'SALVAR', 
+                    action: () {
+                      if(_form.currentState!.validate()) {
+                        _form.currentState?.save();
+                        dataDb.setProduct(
+                          _formData['id'].toString(),
+                          _formData['name'].toString(),
+                          double.parse(_formData['price']!.replaceAllMapped(RegExp(r'[^0-9/,]'), (match) => '').replaceAll(',', '.')),
+                          int.parse(_formData['qty']!),
+                          _formData['listId']
+                        );
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
                 ]
               )
             ]

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lista_compras/components/appbar_custom.dart';
 import 'package:lista_compras/components/forms/input_custom.dart';
+import 'package:lista_compras/components/forms/submit.dart';
 import 'package:lista_compras/database/db.dart';
 import 'package:lista_compras/models/list_buy.dart';
 import 'package:lista_compras/models/product.dart';
@@ -28,16 +30,8 @@ class ListsForm extends StatelessWidget {
       _loadFormData(listBuy);
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'FORMULÁRIO DE LISTA',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0
+      appBar: AppBarCustom(
+        titleCustom: 'FORMULÁRIO DE LISTA',
       ),
       body: Padding(
         padding: EdgeInsets.all(5),
@@ -58,27 +52,19 @@ class ListsForm extends StatelessWidget {
                   _formData['name'] = newName!
                 }), 
               ),
-              Container(
-                alignment: Alignment.topRight,
-                margin: const EdgeInsets.only(left: 15.0, right: 5.0, top: 5.0, bottom: 5.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(100, 50),
-                    primary: Colors.deepPurpleAccent,
-                  ),
-                  onPressed: () {
-                    if(_form.currentState!.validate()) {
-                      _form.currentState?.save();
-                      list.setList(
-                        int.parse(_formData['id']!),
-                        _formData['name']!
-                      );
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: Text('SALVAR'),
-                )
-              )
+              Submit(
+                title: 'SALVAR', 
+                action: () {
+                  if(_form.currentState!.validate()) {
+                    _form.currentState?.save();
+                    list.setList(
+                      int.parse(_formData['id']!),
+                      _formData['name']!
+                    );
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
             ],
           ),
         ),
