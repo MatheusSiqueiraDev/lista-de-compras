@@ -19,23 +19,14 @@ class InputCustom extends StatelessWidget {
         keyboardType: typeKeyboard ?? TextInputType.text,
         inputFormatters: maskInput,
         initialValue: initValue,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.normal
-        ),
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
-          labelStyle: const TextStyle(
-            color: Colors.deepPurpleAccent
-          ),
           filled: true,
-          fillColor: const Color.fromARGB(255, 42,42,42),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.deepPurpleAccent),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Color.fromARGB(255, 42,42,42)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).inputDecorationTheme.fillColor as Color
+            ),
           ),
         ),
         onSaved: save

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lista_compras/components/products_tile.dart';
+import 'package:lista_compras/components/round_container.dart';
 
 class ListViewCustom extends StatelessWidget {
   final int qtyList;
@@ -16,8 +17,8 @@ class ListViewCustom extends StatelessWidget {
   @override 
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 0),
+      child: RoundContainer(
+        padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
         child: NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
             final ScrollDirection direction = notification.direction;
@@ -37,8 +38,8 @@ class ListViewCustom extends StatelessWidget {
           child: ListView.builder(
             itemCount: qtyList,
             itemBuilder: (context, index) => builderList(index),
-            ),
-          ),  
+          ),
+        ),  
       ),
     );
   }

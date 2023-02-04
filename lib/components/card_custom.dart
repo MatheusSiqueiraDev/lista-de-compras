@@ -29,17 +29,8 @@ class CardCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(left: 0, right: 0, top: 5.0, bottom: 5.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromARGB(255, 58, 58, 58).withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 2,
-            offset: Offset(0, 2), 
-          )
-        ]
+        borderRadius: BorderRadius.circular(0),
       ),
       child: Dismissible(
         key: UniqueKey(), 
@@ -62,8 +53,8 @@ class CardCustom extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0),
           ),
+          elevation: 0,
           margin: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
-          color: const Color.fromARGB(255, 42,42,42),
           child: ListTile(
             onTap: click,
             leading: iconCard,
@@ -71,7 +62,7 @@ class CardCustom extends StatelessWidget {
             subtitle: subtitleCard,
             trailing: actionsCard,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)
+              borderRadius: BorderRadius.circular(0)
             ),
           ),
         )
