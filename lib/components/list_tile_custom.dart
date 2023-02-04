@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_compras/components/actions/icon_move_card_delete.dart';
 import 'package:lista_compras/components/actions/icon_move_card_edit.dart';
@@ -28,10 +27,7 @@ class ListTileCustom extends StatelessWidget {
       },
       titleCard: Text(
         listBuy.name!,
-        style: const TextStyle(
-          color: Colors.deepPurpleAccent,
-          fontWeight: FontWeight.bold
-        )
+        style: Theme.of(context).textTheme.titleLarge
       ),
       containerActionEndToStart: IconMoveCardDelete(),
       containerActionStartToEnd: IconMoveCardEdit(),

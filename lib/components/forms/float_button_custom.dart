@@ -18,7 +18,6 @@ class FloatButtonCustom extends StatelessWidget {
             onPressed: () {
               action();
             },
-            backgroundColor: Colors.deepPurpleAccent,
             child: const Icon(Icons.add),
           ),
         ),

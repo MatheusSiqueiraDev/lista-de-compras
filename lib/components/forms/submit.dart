@@ -14,10 +14,15 @@ class Submit extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: Size(100, 50),
-          primary: Colors.deepPurpleAccent,
+          // primary: Colors.deepPurpleAccent,
         ),
         onPressed: action,
-        child: Text(title)
+        child: Text(
+          title,
+          style: TextStyle(
+            color: Colors.white
+          ),
+        )
       )
     );
   }

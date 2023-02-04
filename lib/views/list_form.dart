@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_compras/components/appbar_custom.dart';
+import 'package:lista_compras/components/forms/form_custom.dart';
 import 'package:lista_compras/components/forms/input_custom.dart';
 import 'package:lista_compras/components/forms/submit.dart';
 import 'package:lista_compras/database/db.dart';
@@ -33,42 +34,37 @@ class ListsForm extends StatelessWidget {
       appBar: AppBarCustom(
         titleCustom: 'FORMULÁRIO DE LISTA',
       ),
-      body: Padding(
-        padding: EdgeInsets.all(5),
-        child: Form(
-          key: _form,
-          child: Column(
-            children: <Widget>[
-              InputCustom(
-                initValue: _formData['name'],
-                label: 'NOME',
-                validator: (value) {
-                  if(value == null || value.isEmpty) {
-                    return 'Escreva o nome da lista';
-                  }
-                  return null;
-                },
-                save: ((newName) => {
-                  _formData['name'] = newName!
-                }), 
-              ),
-              Submit(
-                title: 'SALVAR', 
-                action: () {
-                  if(_form.currentState!.validate()) {
-                    _form.currentState?.save();
-                    list.setList(
-                      int.parse(_formData['id']!),
-                      _formData['name']!
-                    );
-                    Navigator.of(context).pop();
-                  }
-                },
-              ),
-            ],
+      body: FormCustom(
+        key: _form,
+        inputs: <Widget>[
+          InputCustom(
+            initValue: _formData['name'],
+            label: 'NOME',
+            validator: (value) {
+              if(value == null || value.isEmpty) {
+                return 'Escreva o nome da lista';
+              }
+              return null;
+            },
+            save: ((newName) => {
+              _formData['name'] = newName!
+            }), 
           ),
-        ),
-      ),
+          Submit(
+            title: 'SALVAR', 
+            action: () {
+              if(_form.currentState!.validate()) {
+                _form.currentState?.save();
+                list.setList(
+                  int.parse(_formData['id']!),
+                  _formData['name']!
+                );
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ],
+      )
     );
   }
 }

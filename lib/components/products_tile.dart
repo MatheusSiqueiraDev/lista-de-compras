@@ -33,25 +33,19 @@ class ProductsTile extends StatelessWidget {
       iconCard: const CircleAvatar(
         backgroundColor: Colors.transparent,
         child: Icon(
-          Icons.add_shopping_cart, 
-          color: Colors.deepPurpleAccent,
+          Icons.add_shopping_cart,
+          color: Color.fromARGB(255, 98, 0, 238),
         ), 
       ),
       titleCard: Text(
         product.name!, 
-        style: const TextStyle(
-          color: Colors.deepPurpleAccent,
-          overflow: TextOverflow.ellipsis,
-          fontWeight: FontWeight.bold
-        ),
+        style: Theme.of(context).textTheme.titleMedium
       ),
       subtitleCard: Text(
         formatPrice.coin.format(
           product.price!.toString().replaceAll('.', ',')
         ), 
-        style: const TextStyle(
-          color: Colors.white
-        ),
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Color.fromARGB(255, 235, 92, 81))
       ),
       actionsCard: Container(
         width: 150,
@@ -60,13 +54,10 @@ class ProductsTile extends StatelessWidget {
             Flexible(
               child: Container(
                 alignment: Alignment.centerRight,
-                child: 
-                  Text(
-                    product.qty.toString(), 
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                child: Text(
+                  product.qty.toString(), 
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
             ),
@@ -76,7 +67,7 @@ class ProductsTile extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                fillColor: MaterialStateProperty.resolveWith((state) => Colors.deepPurpleAccent),
+                fillColor: MaterialStateProperty.resolveWith((state) => Theme.of(context).colorScheme.primary),
                 value: product.buy == 0 ? false : true,
                 onChanged: (bool? value) {
                   dataDb.changeBuyProduct(

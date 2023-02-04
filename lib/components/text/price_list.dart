@@ -21,11 +21,7 @@ class PriceList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
-            title,
-            style: const TextStyle(
-              color: Color.fromARGB(255, 211, 211, 211),
-              fontSize: 15,
-            ),
+            title
           ),
           Text(
             FormatRealBr().coin.format(price.toStringAsFixed(2).replaceAll('.', ',')),

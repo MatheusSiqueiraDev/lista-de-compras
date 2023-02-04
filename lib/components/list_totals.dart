@@ -8,28 +8,26 @@ class ListTotals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GetData dataDb = Provider.of(context);
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 26,26,26),
-      ),  
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+    return Container(  
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+      color: Theme.of(context).appBarTheme.backgroundColor,
       child: Row(
         children: <Widget>[
           PriceList(
             title: 'GASTO', 
             price: dataDb.spending,
-            colorText: const Color.fromARGB(255, 255, 70, 57),
+            colorText: Color.fromARGB(255, 255, 36, 21),
           ),
           PriceList(
             title: 'TOTAL', 
             price: dataDb.totalPrice,
-            colorText: const Color.fromARGB(255, 18, 178, 109),
+            colorText: Color.fromARGB(255, 44, 255, 164),
           ),
           PriceList(
             title: 'PENDENTE', 
             price: dataDb.pendingPrice,
-            colorText: const Color.fromARGB(255, 246, 197, 53),
+            colorText: Color.fromARGB(255, 255, 202, 41),
           )
         ],
       ),   

@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lista_compras/style/theme_custom.dart';
 
-class AppBarCustom extends AppBar {
-  final String titleCustom;
+class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
+  final String? titleCustom;
   final List<Widget>? actionsCustom;
 
-  AppBarCustom({this.titleCustom = '', this.actionsCustom}):super(
-    backgroundColor: Colors.transparent,
-    elevation: 0,
-    title: Text(
-      titleCustom,
-      style: const TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-        color: Colors.white
+  AppBarCustom({required this.titleCustom, this.actionsCustom});
+
+  @override 
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      title: Text(
+        titleCustom!,
+        style: Theme.of(context).textTheme.bodyMedium
       ),
-    ),
-    actions: actionsCustom
-  );
+      actions: actionsCustom,
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
