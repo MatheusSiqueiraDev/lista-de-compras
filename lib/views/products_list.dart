@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lista_compras/components/actions/remove_all_elements.dart';
 import 'package:lista_compras/components/appbar_custom.dart';
+import 'package:lista_compras/components/empty_component.dart';
 import 'package:lista_compras/components/forms/float_button_custom.dart';
 import 'package:lista_compras/components/list/list_view_custom.dart';
 import 'package:lista_compras/components/list_totals.dart';
@@ -39,16 +40,22 @@ class _StateProductList extends State<ProductList> {
       body: Column(
         children: <Widget>[
           ListTotals(),
-          ListViewCustom(
-            qtyList: dataDb.countProduct,
-            builderList: (index) => ProductsTile(dataDb.byIndexProduct(index)),
-            scrollButton: (bool condition) => { 
-              setState(() {
-                  _showButtonScroll = condition;
-                }
-              )
-            },
-          ),
+          (dataDb.countProduct > 0 ?
+            ListViewCustom(
+              qtyList: dataDb.countProduct,
+              builderList: (index) => ProductsTile(dataDb.byIndexProduct(index)),
+              scrollButton: (bool condition) => { 
+                setState(() {
+                    _showButtonScroll = condition;
+                  }
+                )
+              },
+            )
+          :
+            EmptyComponent(
+              titleCustom: 'LISTA VAZIA'
+            )
+          )
         ],
       ), 
       floatingActionButton: FloatButtonCustom(

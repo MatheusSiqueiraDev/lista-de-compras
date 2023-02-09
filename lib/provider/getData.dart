@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:lista_compras/database/db.dart';
 import 'package:lista_compras/models/list_buy.dart';
 import 'package:lista_compras/models/product.dart';
+import 'package:lista_compras/models/theme_change.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class GetData with ChangeNotifier {
@@ -19,12 +20,15 @@ class GetData with ChangeNotifier {
 
   List _product = [];
 
+  bool _themeMode = false;
+
   GetData() {
     _initRepository();
   }
 
   _initRepository() async {
     await _getLists();
+    await _getThemeCurrent();
   }
 
   List get products => _product;
@@ -57,6 +61,10 @@ class GetData with ChangeNotifier {
 
   Product byIndexProduct(int i) {
     return _product[i];
+  }
+
+  bool get themeMode {
+    return _themeMode;
   }
 
   void notify() {
@@ -249,5 +257,35 @@ class GetData with ChangeNotifier {
       );
     } 
     await _getDataProducts(listId);
+  }
+
+  void changeTheme(bool value) async {
+    _themeMode = value;
+
+    await db.rawUpdate(
+      '''
+        UPDATE theme 
+        SET value = ?
+        WHERE name = ?
+      ''', 
+      [value ? 1 : 0, 'theme-current']
+    );
+
+    notifyListeners();
+  }
+
+  _getThemeCurrent() async {
+    final List themeQuery = await _getThemeDb();
+    late ThemeChange themeCurrent;
+    for (var theme in themeQuery) { 
+      themeCurrent = ThemeChange.fromMap(theme);
+    } 
+
+    _themeMode = themeCurrent.value == 1 ? true : false;
+    notifyListeners();
+  }
+
+  _getThemeDb() {
+    return db.rawQuery('select * from theme WHERE name = ? LIMIT 1', ['theme-current']);
   }
 }

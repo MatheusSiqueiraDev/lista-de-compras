@@ -26,19 +26,24 @@ class MyApp extends StatelessWidget {
           create: (context) => GetData()
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Lista de Compra',
-        themeMode:ThemeMode.system,
-        theme: ThemeCustom.lightTheme,
-        darkTheme: ThemeCustom.darkTheme,
-        home: ShoppingList(),
-        routes: {
-          AppRoutes.PRODUCT_FORM: ((context) => ProductsForm()),
-          AppRoutes.PRODUCT_LIST: ((context) => ProductList()),
-          AppRoutes.LIST_FORM:(context) => ListsForm()
-        },
-      ),
+      child: Consumer<GetData>(
+        builder: (context, getData, _) {
+          final GetData dataDb = Provider.of(context);
+      
+          return  MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Lista de Compras',
+            theme: dataDb.themeMode ? ThemeCustom.lightTheme : ThemeCustom.darkTheme,
+            home: ShoppingList(),
+            routes: {
+              AppRoutes.PRODUCT_FORM: ((context) => ProductsForm()),
+              AppRoutes.PRODUCT_LIST: ((context) => ProductList()),
+              AppRoutes.LIST_FORM:(context) => ListsForm()
+            },
+          );
+        },        
+      )  
+     
     );
   }
 }

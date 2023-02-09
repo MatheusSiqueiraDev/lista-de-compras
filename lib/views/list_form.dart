@@ -35,7 +35,7 @@ class ListsForm extends StatelessWidget {
         titleCustom: 'FORMULÁRIO DE LISTA',
       ),
       body: FormCustom(
-        key: _form,
+        formKey: _form,
         inputs: <Widget>[
           InputCustom(
             initValue: _formData['name'],

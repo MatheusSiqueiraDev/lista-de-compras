@@ -4,16 +4,16 @@ import 'package:lista_compras/components/round_container.dart';
 
 class FormCustom extends StatelessWidget {
   final List<Widget> inputs;
-  final Key? key;
+  final GlobalKey<FormState> formKey;
 
-  FormCustom({required this.inputs, required this.key});
+  FormCustom({required this.inputs, required this.formKey});
 
   @override
   Widget build(BuildContext context) {
     return RoundContainer(
-      padding: EdgeInsets.only(top: 35, left: 5, right: 5, bottom: 5),
-      child: Form(
-        key: key,
+      paddingCustom: EdgeInsets.only(top: 35, left: 5, right: 5, bottom: 5),
+      childCustom: Form(
+        key: formKey,
         child: ListView(
           children: <Widget>[
             Column(

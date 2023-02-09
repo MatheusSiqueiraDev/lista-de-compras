@@ -43,7 +43,7 @@ class ProductsTile extends StatelessWidget {
       ),
       subtitleCard: Text(
         formatPrice.coin.format(
-          product.price!.toString().replaceAll('.', ',')
+          product.price!.toStringAsFixed(2).toString().replaceAll('.', ',')
         ), 
         style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Color.fromARGB(255, 235, 92, 81))
       ),
