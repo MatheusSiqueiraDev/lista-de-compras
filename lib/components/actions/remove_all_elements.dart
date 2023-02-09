@@ -16,7 +16,10 @@ class RemoveAllElements extends StatelessWidget {
               context: context, 
               builder: (context) => AlertDialog(
                 title: Text(message),
-                content: Text('Tem certeza?'),
+                content: Text(
+                  'Tem certeza?',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),

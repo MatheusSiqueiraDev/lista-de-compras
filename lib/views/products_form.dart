@@ -106,7 +106,7 @@ class ProductsForm extends StatelessWidget {
             },
           ),
         ],
-        key: _form,
+        formKey: _form,
       )
     );
   }

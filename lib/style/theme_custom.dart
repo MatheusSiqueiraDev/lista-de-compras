@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeCustom {
-  static Color primaryColor = Color.fromARGB(255, 98, 0, 238);
+  static Color primaryColor = Colors.deepPurple;
 
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: primaryColor,
@@ -22,7 +22,7 @@ class ThemeCustom {
       background: Color.fromARGB(255, 37, 37, 37)
     ),
     cardTheme: const CardTheme(
-      color: Color.fromARGB(255, 37, 37, 37)
+      color: Color.fromARGB(255, 42,42,42)
     ),
     iconTheme: IconThemeData(
       color: primaryColor,
@@ -41,7 +41,8 @@ class ThemeCustom {
     ),
     inputDecorationTheme: const InputDecorationTheme(
       fillColor: Color.fromARGB(255, 42,42,42),
-    )
+    ),
+    useMaterial3: true,
   );
 
   static final ThemeData lightTheme = ThemeData(
@@ -63,29 +64,31 @@ class ThemeCustom {
       background: const Color.fromARGB(255, 255, 255, 255),
     ),
     cardTheme: const CardTheme(
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: Color.fromARGB(255, 241, 241, 241),
     ),
     iconTheme: IconThemeData(
       color: primaryColor,
     ),
     textTheme: const TextTheme(
       titleSmall: TextStyle(
-        color: Color.fromARGB(255, 121, 121, 121),
+        color: Color.fromARGB(255, 65, 65, 65),
         overflow: TextOverflow.ellipsis,
       ),
       titleMedium: TextStyle(
-        color: Color.fromARGB(255, 53, 53, 53),
+        color: Color.fromARGB(255, 71, 71, 71),
         overflow: TextOverflow.ellipsis,
       ),
       titleLarge: TextStyle(
-        color: Color.fromARGB(255, 53, 53, 53),
+        color: Color.fromARGB(255, 57, 57, 57),
+        overflow: TextOverflow.ellipsis,
       ),
       bodyMedium: TextStyle(
         color: Colors.white,
       ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
-      fillColor: Color.fromARGB(255, 223, 223, 223),
-    )
+      fillColor: Color.fromARGB(255, 241, 241, 241),
+    ),
+    useMaterial3: true,
   );
 }

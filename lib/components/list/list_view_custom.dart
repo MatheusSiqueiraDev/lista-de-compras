@@ -18,8 +18,8 @@ class ListViewCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: RoundContainer(
-        padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
-        child: NotificationListener<UserScrollNotification>(
+        paddingCustom: const EdgeInsets.fromLTRB(0, 25, 0, 5),
+        childCustom: NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
             final ScrollDirection direction = notification.direction;
             final double maxScroll = notification.metrics.maxScrollExtent;

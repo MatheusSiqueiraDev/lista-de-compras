@@ -14,7 +14,8 @@ class Submit extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: Size(100, 50),
-          // primary: Colors.deepPurpleAccent,
+          backgroundColor: Colors.deepPurpleAccent,
+          foregroundColor: Color.fromARGB(255, 44, 27, 93),
         ),
         onPressed: action,
         child: Text(
@@ -22,7 +23,7 @@ class Submit extends StatelessWidget {
           style: TextStyle(
             color: Colors.white
           ),
-        )
+        ),
       )
     );
   }
